@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
+#include <errno.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -36,8 +38,14 @@ int     handle_builtin(char **args);
 void    check_bg_procs();
 void    add_bg_proc(pid_t pid, char *cmd);
 void    remove_bg_proc(pid_t pid);
+void    install_signal_handlers();
+void    handle_shell_signal(int signal_number);
+void    reset_child_signal_handlers();
+
+static volatile sig_atomic_t foreground_pid = -1;
 
 int main() {
+    install_signal_handlers();
     run_loop();
     return 0;
 }
@@ -148,6 +156,8 @@ int execute(char **args, int background) {
 
     if (pid == 0) {
         /* child process */
+        reset_child_signal_handlers();
+
         if (execvp(args[0], args) == -1) {
             fprintf(stderr, "sjp-shell: command not found: %s\n", args[0]);
             exit(EXIT_FAILURE);
@@ -160,11 +170,69 @@ int execute(char **args, int background) {
         } else {
             /* foreground: wait for child to finish */
             int status;
-            waitpid(pid, &status, 0);
+            pid_t wait_result;
+
+            foreground_pid = pid;
+
+            do {
+                wait_result = waitpid(pid, &status, WUNTRACED);
+            } while (wait_result == -1 && errno == EINTR);
+
+            foreground_pid = -1;
+
+            if (wait_result == -1) {
+                perror("waitpid failed");
+                return 1;
+            }
+
+            if (WIFSIGNALED(status)) {
+                fprintf(stderr, "sjp-shell: process terminated by signal %d\n",
+                        WTERMSIG(status));
+            } else if (WIFSTOPPED(status)) {
+                fprintf(stderr, "sjp-shell: process suspended by signal %d\n",
+                        WSTOPSIG(status));
+            }
         }
     }
 
     return 1;
+}
+
+void install_signal_handlers() {
+    struct sigaction action;
+
+    action.sa_handler = handle_shell_signal;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = SA_RESTART;
+
+    if (sigaction(SIGINT, &action, NULL) == -1) {
+        perror("sigaction SIGINT failed");
+        exit(EXIT_FAILURE);
+    }
+
+    if (sigaction(SIGTSTP, &action, NULL) == -1) {
+        perror("sigaction SIGTSTP failed");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void handle_shell_signal(int signal_number) {
+    if (foreground_pid > 0) {
+        kill((pid_t) foreground_pid, signal_number);
+    }
+
+    write(STDOUT_FILENO, "\n", 1);
+}
+
+void reset_child_signal_handlers() {
+    struct sigaction action;
+
+    action.sa_handler = SIG_DFL;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+
+    sigaction(SIGINT, &action, NULL);
+    sigaction(SIGTSTP, &action, NULL);
 }
 
 /* ─── Background Process Tracking ──────────────────────────────────────── */
