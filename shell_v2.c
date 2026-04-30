@@ -260,7 +260,7 @@ int execute_line(ParsedLine *parsed) {
     }
 
     for (i = 0; i < parsed->command_count; i++) {
-        if (handle_builtin(parsed->commands[i].argv) != -1) {
+        if (is_builtin_command(parsed->commands[i].argv[0])) {
             fprintf(stderr, "sjp-shell: built-in commands cannot be used in pipelines or background jobs\n");
             return 1;
         }
