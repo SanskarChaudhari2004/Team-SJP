@@ -1,0 +1,130 @@
+Final Report Outline
+
+1. Title Page
+- Project title
+- Course: COSC 4348
+- Team name: Team SJP
+- Team members:
+  - Sanskar Chaudhari
+  - Jacob Bryson
+  - Pearson Pollard
+- Submission date
+
+2. Introduction
+- Brief description of the project
+- Objective of building a Unix-style shell in C
+- Summary of what the shell is intended to do
+- Why this project is useful for learning OS and systems concepts
+
+3. Project Goals and Requirements
+- Original project concept
+- Core required features
+- Stretch goals from the proposal
+- Scope of the final implementation
+
+4. System Design
+- High-level architecture of the shell
+- Main components:
+  - input loop
+  - command parser
+  - execution engine
+  - built-in command handler
+  - process management
+  - signal handling
+  - I/O redirection
+  - piping
+  - batch mode
+- How these components interact
+
+5. Implementation Details
+- Programming language and environment used
+- Why C and POSIX system calls were used
+- Key system calls/libraries used:
+  - fork()
+  - execvp()
+  - waitpid()
+  - pipe()
+  - dup2()
+  - open()
+  - close()
+  - sigaction()
+  - chdir()
+  - getcwd()
+
+6. Feature Implementation
+- Basic command execution
+- Built-in commands
+- Background execution with &
+- Signal handling with Ctrl+C and Ctrl+Z
+- I/O redirection with < and >
+- Single and multiple pipelines
+- Batch mode
+- Error handling
+
+7. Team Member Contributions
+- Sanskar:
+  - background execution
+  - expanded built-ins
+  - parser/execution contributions
+  - integration support
+- Pearson:
+  - process management
+  - signal handling
+  - testing/debugging
+- Jacob:
+  - I/O redirection
+  - piping
+  - file descriptor management
+- Shared work:
+  - debugging
+  - testing
+  - documentation
+  - final integration
+
+8. Testing and Debugging
+- Testing environment used, such as WSL/Linux
+- Testing process and checklist
+- Commands used to verify each feature
+- Bugs encountered
+- How those bugs were fixed
+- Summary of final working behavior
+
+9. Challenges and Solutions
+- Parsing special operators like &, <, >, and |
+- Managing child processes correctly
+- Handling signals without killing the shell
+- Coordinating features so they work together
+- Avoiding syntax and file-handling errors
+
+10. Results
+- Summary of final system capabilities
+- What features are fully working
+- Screenshots or terminal output examples
+- Evidence that the shell meets the required project goals
+
+11. Limitations and Future Work
+- Stretch goals not completed
+- Features that could be improved further
+- Possible future additions such as:
+  - command history
+  - tab completion
+  - environment variables
+  - prompt customization
+  - fg / bg style job control
+
+12. Conclusion
+- What the team accomplished
+- What was learned from the project
+- Final reflection on systems programming concepts used
+
+13. Appendix
+- Sample commands
+- Build/run instructions
+- Extra screenshots or output logs
+- Link or reference to demo video if needed
+
+Recommended Writing Split
+- Sanskar: Introduction, Goals, Design, Background/Built-ins
+- Pearson: Signal handling, Process management, Testing/Debugging, Challenges
+- Jacob: I/O redirection, Piping, File descriptor handling
+- Shared: Conclusion, Results, Final cleanup

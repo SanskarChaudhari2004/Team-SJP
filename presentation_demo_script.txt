@@ -1,0 +1,128 @@
+Presentation Demo Script
+
+1. Opening
+
+Say:
+"Hello, we are Team SJP, and this is our COSC 4348 Project 3. We built a
+Unix-style shell in C that supports command execution, built-in commands,
+background processing, signal handling, I/O redirection, pipelines, and batch
+mode."
+
+2. Show the project files
+
+Say:
+"Our final implementation is in shell_v2.c."
+
+3. Compile the shell
+
+Run:
+gcc -Wall -Wextra -pedantic -o sjp-shell shell_v2.c
+
+Say:
+"Here we are compiling the final shell implementation using GCC in a
+Linux-compatible environment."
+
+4. Start the shell
+
+Run:
+./sjp-shell
+
+Say:
+"This launches the shell in interactive mode."
+
+5. Show basic command execution
+
+Run:
+echo hello
+pwd
+
+Say:
+"These commands show that the shell can execute normal Unix commands."
+
+6. Show built-in commands
+
+Run:
+help
+pwd
+
+Say:
+"We also implemented built-in commands such as help, pwd, cd, jobs, and exit."
+
+7. Show background execution
+
+Run:
+sleep 5 &
+jobs
+
+Say:
+"This demonstrates background execution using the & operator. The shell
+immediately returns to the prompt and tracks the background process with the
+jobs command."
+
+8. Show signal handling
+
+Run:
+sleep 5
+
+Then press Ctrl+C
+
+Run again:
+sleep 5
+
+Then press Ctrl+Z
+
+Say:
+"This demonstrates signal handling. Ctrl+C sends SIGINT to terminate the
+foreground process, and Ctrl+Z sends SIGTSTP to suspend it, while the shell
+itself continues running."
+
+9. Show output redirection
+
+Run:
+echo hello > out.txt
+cat < out.txt
+
+Say:
+"This demonstrates output redirection to a file and input redirection from a
+file."
+
+10. Show single pipeline
+
+Run:
+echo one two three | wc -w
+
+Say:
+"This shows a single pipeline, where the output of one command becomes the
+input to another."
+
+11. Show multiple pipelines
+
+Run:
+echo one two three | cat | wc -w
+
+Say:
+"This shows multiple pipelines working together in sequence."
+
+12. Show batch mode
+
+First exit the shell:
+exit
+
+Create a small batch file:
+printf "pwd\necho batch mode works\nhelp\n" > commands.txt
+
+Run batch mode:
+./sjp-shell commands.txt
+
+Say:
+"This demonstrates batch mode, where the shell reads commands from a file
+instead of interactive input."
+
+13. Closing
+
+Say:
+"In summary, our shell meets the core project requirements by supporting
+command execution, built-ins, background processing, signal handling,
+redirection, piping, and batch mode. Through this project, we applied important
+operating systems concepts such as process creation, process control, signals,
+and file descriptor management."

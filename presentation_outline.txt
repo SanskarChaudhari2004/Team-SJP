@@ -1,0 +1,65 @@
+Presentation Outline
+
+1. Title Slide
+- Project title
+- Team name: Team SJP
+- Course: COSC 4348
+- Team members
+
+2. Project Overview
+- What the project is
+- Goal of building a Unix-style shell in C
+- Why it is relevant to operating systems
+
+3. Core Features
+- command execution
+- built-in commands
+- background execution
+- signal handling
+- I/O redirection
+- piping
+- batch mode
+
+4. System Design
+- input loop
+- parser
+- execution engine
+- process management
+- file descriptor management
+- signal handling logic
+
+5. Implementation Highlights
+- use of POSIX system calls
+- fork(), execvp(), waitpid()
+- pipe(), dup2(), open(), close()
+- sigaction() for signals
+
+6. Team Contributions
+- Sanskar: background execution, built-ins, integration
+- Pearson: process management, signal handling, testing/debugging
+- Jacob: I/O redirection, piping, file descriptor handling
+
+7. Demo
+- compile and run
+- built-ins
+- background jobs
+- Ctrl+C / Ctrl+Z
+- redirection
+- pipelines
+- batch mode
+
+8. Testing and Debugging
+- testing environment: WSL/Linux
+- feature testing performed
+- bugs found and fixed
+
+9. Challenges and Solutions
+- parsing shell operators
+- handling child processes
+- managing signals safely
+- integrating all features together
+
+10. Conclusion
+- what the team accomplished
+- what was learned
+- future improvements / stretch goals
